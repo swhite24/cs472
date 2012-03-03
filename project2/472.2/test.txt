@@ -1,0 +1,43 @@
+CL-USER> (time-of-1000 (!test_dfs 80 2))
+Average real time: 0.000038
+
+Average run time: 0.000024
+
+NIL
+CL-USER> (time-of-1000 (!test_dfs 5000 16))
+Average real time: 0.010752
+
+Average run time: 0.010717
+
+NIL
+CL-USER> (time-of-1000 (!test_dfid_dfs 5000 16))
+Average real time: 0.016008
+
+Average run time: 0.015693
+
+NIL
+CL-USER> (time-of-1000 (!test_dfs 5000 48))
+Average real time: 0.022511
+
+Average run time: 0.022417
+
+NIL
+CL-USER> (time-of-1000 (!test_dfid_dfs 5000 48))
+Average real time: 0.045662
+
+Average run time: 0.045487
+
+NIL
+CL-USER> (time-of-1000 (sleep 0.001))
+Average real time: 0.00125
+
+Average run time: 0.00008
+
+NIL
+CL-USER> (time-of-1000 t)
+Average real time: 0.000001
+
+Average run time: 0.0
+
+NIL
+CL-USER> 

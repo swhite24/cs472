@@ -1,0 +1,42 @@
+#| -*- lisp -*-
+exec /usr/bin/sbcl  --noinform --load $0 --end-toplevel-options "$@"
+#exec /opt/local/bin/sbcl  --noinform --load $0 --end-toplevel-options "$@"
+|#
+
+(defun lithp-hi ()
+  "as required by http://goo.gl/PWqZP, print historic LISP greeting"
+  (let ((line ";---------------------------------------"))
+    (format *error-output* 
+	    "~&~a~%; LITHP ITH LITHTENING (v0.1)~%" line)))
+
+(defun lithp-command-line ()
+  #+clisp ext:*args*
+  #+sbcl sb-ext:*posix-argv*
+  #+clozure (ccl::command-line-arguments)
+  #+gcl si:*command-args*
+  #+ecl (loop for i from 0 below (si:argc) collect (si:argv i))
+  #+cmu extensions:*command-line-strings*
+  #+allegro (sys:command-line-arguments)
+  #+lispworks sys:*line-arguments-list*
+)
+
+(defun lithp-non-verbose-load (file) 
+  "suppress silly sbcl warnings"
+  #+sbcl (handler-bind ((style-warning #'muffle-warning)) (load file))
+  #+clisp (load file)
+)
+
+(defun lithp-run-command-line (argv) 
+  "just symbols & keywords & numbers (not strings or lists)"
+  (let* ((main (and argv (pop argv)))
+	 (com  (and argv (mapcar 'read-from-string argv)))
+	 (fn   (and com (car com)))
+	 (args (and com (cdr com))))
+    (if main
+	(lithp-non-verbose-load main))
+    (if fn
+	(format t "~&~a~%" (apply fn args)))))
+
+(lithp-hi)
+(lithp-run-command-line (cdr (lithp-command-line)))
+(quit)

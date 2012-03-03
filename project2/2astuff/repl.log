@@ -1,0 +1,96 @@
+; SLIME 2010-07-21
+CL-USER> (load "main")
+T
+CL-USER> (rwalk-worker)
+nodes: ((garden1236 (YOU ARE IN garden1236))
+        (garden1235 (YOU ARE IN garden1235))
+        (garden1234 (YOU ARE IN garden1234))
+        (garden1233 (YOU ARE IN garden1233))
+        (garden1232 (YOU ARE IN garden1232))
+        (garden1231 (YOU ARE IN garden1231))
+        (garden1230 (YOU ARE IN garden1230))
+        (garden1229 (YOU ARE IN garden1229))
+        (garden1228 (YOU ARE IN garden1228))
+        (garden1227 (YOU ARE IN garden1227))
+        (garden1226 (YOU ARE IN garden1226))
+        (garden1225 (YOU ARE IN garden1225))
+        (garden1224 (YOU ARE IN garden1224))
+        (garden1223 (YOU ARE IN garden1223))
+        (garden1222 (YOU ARE IN garden1222))
+        (garden1221 (YOU ARE IN garden1221))
+        (garden1220 (YOU ARE IN garden1220))
+        (garden1219 (YOU ARE IN garden1219))
+        (garden1218 (YOU ARE IN garden1218))
+        (garden1217 (YOU ARE IN garden1217))
+        (LIVING-ROOM
+         (YOU ARE IN THE LIVING-ROOM. A WIZARD IS SNORING LOUDLY ON THE
+          COUCH.))
+        (GARDEN
+         (YOU ARE IN A BEAUTIFUL GARDEN. THERE IS A WELL IN FRONT OF
+          YOU.))
+        (ATTIC
+         (YOU ARE IN THE ATTIC. THERE IS A GIANT WELDING TORCH IN THE
+          CORNER.)))
+
+edges: ((garden1217 (garden1221 SOUTH) (garden1218 NORTH))
+        (garden1218 (garden1217 SOUTH) (garden1225 WEST))
+        (garden1219 (garden1227 WEST) (garden1227 SOUTH)
+         (garden1232 NORTH))
+        (garden1220 (ATTIC NORTH) (garden1230 NORTH) (garden1221 WEST)
+         (garden1222 WEST) (garden1234 SOUTH))
+        (garden1221 (garden1217 NORTH) (garden1220 EAST)
+         (garden1226 WEST))
+        (garden1222 (garden1231 WEST) (garden1220 EAST) (GARDEN EAST)
+         (garden1231 EAST) (garden1232 EAST))
+        (garden1223 (ATTIC NORTH) (garden1225 SOUTH) (garden1227 SOUTH)
+         (garden1233 NORTH))
+        (garden1224 (garden1225 EAST) (garden1235 SOUTH) (garden1236 EAST)
+         (garden1236 NORTH) (garden1236 EAST))
+        (garden1225 (garden1223 NORTH) (garden1224 WEST) (garden1225 WEST)
+         (garden1225 EAST) (garden1218 EAST))
+        (garden1226 (garden1221 EAST) (garden1228 NORTH)
+         (garden1230 EAST))
+        (garden1227 (LIVING-ROOM SOUTH) (garden1223 NORTH)
+         (garden1219 EAST) (garden1219 NORTH) (garden1232 SOUTH))
+        (garden1228 (garden1226 SOUTH) (garden1233 WEST) (garden1230 EAST)
+         (garden1232 WEST))
+        (garden1229 (garden1233 NORTH) (garden1234 SOUTH))
+        (garden1230 (garden1220 SOUTH) (garden1228 WEST)
+         (garden1226 WEST))
+        (garden1231 (garden1222 EAST) (garden1222 WEST))
+        (garden1232 (garden1227 NORTH) (garden1219 SOUTH)
+         (garden1228 EAST) (garden1222 WEST) (garden1235 NORTH))
+        (garden1233 (garden1228 EAST) (garden1223 SOUTH) (garden1233 EAST)
+         (garden1233 WEST) (garden1229 SOUTH))
+        (garden1234 (garden1229 NORTH) (garden1220 NORTH) (GARDEN SOUTH)
+         (garden1234 SOUTH) (garden1234 NORTH))
+        (garden1235 (garden1232 SOUTH) (garden1224 NORTH))
+        (garden1236 (GARDEN SOUTH) (garden1224 WEST) (garden1224 SOUTH)
+         (garden1224 WEST) (LIVING-ROOM EAST))
+        (LIVING-ROOM (garden1227 NORTH) (garden1236 WEST)
+         (GARDEN WEST DOOR) (ATTIC UPSTAIRS LADDER))
+        (GARDEN (garden1222 WEST) (garden1234 NORTH) (garden1236 NORTH)
+         (LIVING-ROOM EAST DOOR))
+        (ATTIC (garden1220 SOUTH) (garden1223 SOUTH)
+         (LIVING-ROOM DOWNSTAIRS LADDER)))
+
+objects: (sword1256 sword1255 sword1254 sword1253 sword1252 sword1251
+          sword1250 sword1249 sword1248 sword1247 sword1246 sword1245
+          sword1244 sword1243 sword1242 sword1241 sword1240 sword1239
+          sword1238 sword1237 WHISKEY BUCKET FROG CHAIN)
+
+at: ((sword1256 garden1224) (sword1255 garden1226) (sword1254 garden1221)
+     (sword1253 garden1219) (sword1252 garden1217) (sword1251 garden1223)
+     (sword1250 LIVING-ROOM) (sword1249 garden1221) (sword1248 ATTIC)
+     (sword1247 garden1224) (sword1246 GARDEN) (sword1245 garden1236)
+     (sword1244 garden1222) (sword1243 garden1220) (sword1242 garden1231)
+     (sword1241 garden1221) (sword1240 garden1228) (sword1239 garden1235)
+     (sword1238 GARDEN) (sword1237 garden1229) (WHISKEY LIVING-ROOM)
+     (BUCKET LIVING-ROOM) (CHAIN GARDEN) (FROG GARDEN))
+
+(ITEMS- #:|sword1256| #:|sword1255| #:|sword1254| #:|sword1253| #:|sword1252|
+ #:|sword1251| #:|sword1250| #:|sword1249| #:|sword1248| #:|sword1247|
+ #:|sword1246| #:|sword1245| #:|sword1244| #:|sword1243| #:|sword1241|
+ #:|sword1240| #:|sword1239| #:|sword1238| #:|sword1237| WHISKEY BUCKET FROG
+ CHAIN)
+CL-USER> 

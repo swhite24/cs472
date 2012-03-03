@@ -1,0 +1,15 @@
+(load "main.lisp")
+
+(format t "b~Tn~Tdfs~Tdfid_dfs~Tbeam~Tdfid_beam~%~%")
+
+(let ((b_vals '(2 4 8 16 24 48))
+      (n_vals '(40 80 160 325 650 1250 2500 5000)))
+  (dolist (b b_vals)
+    (dolist (n n_vals)
+      (format t "~a~T" b)
+      (format t "~a~T" n)
+      (time-of-1000 (!test_dfs n b))
+      (time-of-1000 (!test_dfid_dfs n b))
+      (time-of-1000 (!test_beam n b))
+      (time-of-1000 (!test_dfid_beam n b))
+      (format t "~%"))))

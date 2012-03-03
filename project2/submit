@@ -1,0 +1,44 @@
+Com="../lithp main main"
+if [ ! -d "$HOME/tmp" ]
+then mkdir $HOME/tmp
+fi
+
+if [ $# -lt 3 ]
+then
+	echo "usage: ../submit subject proj  lastname "
+    echo "e.g. : ../submit cs310 2 menzies"
+	exit 1
+else
+	title="$*"
+fi
+
+File="2print_${1}_${2}"
+
+(
+echo "who= ${title}"
+echo "here= `pwd`"
+ls -lsa 
+echo "" 
+printf "\n--------------------------------------\nrunning ... \n\n"
+$Com
+) | tee ~/tmp/$USER
+
+(
+echo 
+echo 
+for i in `ls` ; do
+       echo ""; echo ""; echo "";
+       echo "=====|  $i |============================"
+       cat $i
+     done
+echo
+) >> ~/tmp/$USER
+
+(
+cd $HOME/tmp
+a2ps --center-title="${title}" -qr2gC -o ~/tmp/$File.ps $USER
+ps2pdf $File.ps
+rm $File.ps
+printf "\n--------------------------------------\n\n"
+echo "see $HOME/tmp/$File.pdf"
+)
