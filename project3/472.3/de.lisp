@@ -95,35 +95,7 @@ see http://tinyurl.com/83d9daa
   "run n times"
   (if (zerop n)
       best
-      (de-step (- n 1) runs best best-score d)))
-
-(defun de-step (n runs best best-score d)
-  "for each member of the population, perhaps
-    replace it with a mutated child"
-  (let* ((id           (mod n (d-np d)))
-	 (parent       (gethash id (d-all d) (any d)))
-	 (child        ;(any d) 
-		       (candidate d parent)
-	               )
-	 (parent-score (closest parent d))
-	 (child-score  (closest child  d))
-	 (winner       parent)
-	 (winner-score parent-score))
-    (when (> child-score parent-score)
-      (setf winner                 child
-	    winner-score           child-score
-	    (gethash id (d-all d)) child))
-    (if (<= winner-score best-score)
-	(de-run n runs best   best-score   d)
-	(progn
-	  (format t "~&~6d [~3d%]~3d% ~5,2f (~{~3d~})~%" 
-		  n
-		  (round (* 100 (/ n runs)))
-		  (round 
-		   (* 100 (/ (- winner-score best-score)
-			     best-score)))
-		  winner-score winner)
-	  (de-run n runs winner winner-score d)))))
+      (de-step (- n 1) runs best best-score d #'de_parent #'de_candidate)))
 
 (defun candidate (d parent)
   "The DE mutator candidate = any + f*(another - yetAnother)"
@@ -192,6 +164,11 @@ see http://tinyurl.com/83d9daa
   "objective function to be maximizes:
     compliment of distance between x and goal"
   (- 1 (dist x (d-goal d) (d-dd d))))
+
+(defun closest_l (l d)
+  (/ (apply #'+ (mapcar #'(lambda (x) (closest x d))
+			l))
+     (length l)))
 
 (defun !closest (&aux (d (make-d)))
   "testing closest. should return 1"

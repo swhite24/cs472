@@ -4,6 +4,8 @@
 		"system.lisp"
 		"pick.lisp"
 		"de.lisp"
+		"ga.lisp"
+		"gade.lisp"
 		"evolution.lisp"
 		)))
 
