@@ -4,6 +4,7 @@
 		"system.lisp"
 		"pick.lisp"
 		"de.lisp"
+		"de_orig.lisp"
 		"evolution.lisp"
 		)))
 
