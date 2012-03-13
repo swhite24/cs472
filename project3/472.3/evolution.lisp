@@ -57,7 +57,7 @@
       (incf (animal-energy animal) *plant-energy*)
       (remhash pos *plants*))))
 
-(defparameter *reproduction-energy* 200)
+;(defparameter *reproduction-energy* 200)
 
 (defun reproduce (animal)
   (let ((e (animal-energy animal)))

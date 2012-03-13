@@ -1,0 +1,31 @@
+CL-USER> (rat_de :gens 10000)
+Number of living rats: 148
+Number of dead rats: 5733
+Average gene: 192.76352 194.45946 499.36487 136.06757 33.405407 540.62164 6034.169 3569.5676 
+Number of plants eaten: 19385
+NIL
+CL-USER> (rat_de :gens 10000)
+Number of living rats: 152
+Number of dead rats: 5795
+Average gene: 609.6447 357.33554 323.57895 131.53947 36.848682 691.3684 1250.1644 745.9605 
+Number of plants eaten: 19386
+NIL
+CL-USER> (rat_de :gens 10000)
+Number of living rats: 155
+Number of dead rats: 5640
+Average gene: 3293.5806 118.464516 720.4452 349.2 135.10323 433.32904 42.941936 220.8258 
+Number of plants eaten: 19354
+NIL
+CL-USER> (rat_de :gens 10000)
+Number of living rats: 159
+Number of dead rats: 5724
+Average gene: 305.67294 4469.4844 957.84906 240.66667 109.54088 355.90567 251.8239 357.56604 
+Number of plants eaten: 19371
+NIL
+CL-USER> (rat_de :gens 10000)
+Number of living rats: 154
+Number of dead rats: 5677
+Average gene: 141.15584 98.74675 872.1688 2559.734 99.155846 74.18831 512.57794 3001.2856 
+Number of plants eaten: 19401
+NIL
+CL-USER> 
