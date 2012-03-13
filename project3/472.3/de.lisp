@@ -28,25 +28,30 @@
 ;; Rat_mem methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod any_rat ((mem rat_mem))
+  "select any currently living rat"
   (nth (randi (length (rat_mem-all_rats mem)))
        (rat_mem-all_rats mem)))
 
 (defmethod random_plant ((mem rat_mem) left top width height)
+  "create plant within given constraints"
   (with-slots (all_plants) mem
     (let ((pos (cons (+ left (random width)) (+ top (random height)))))
       (setf (gethash pos all_plants) t))))
 
 (defmethod add_plants ((mem rat_mem))
+  "add plant in jungle and somewhere else"
   (apply #'random_plant (cons mem *jungle*))
   (random_plant mem 0 0 *width* *height*))
 
 (defmethod update_mem ((mem rat_mem))
+  "update each rat, add plants, and remove dead rats"
   (with-slots (all_plants all_rats) mem
     (mapc #'(lambda (r) (update_rat r mem)) all_rats)
     (add_plants mem)
     (setf all_rats (remove-if #'kill_rat all_rats))))
 
 (defmethod results ((mem rat_mem))
+  "print average gene for all living rats"
   (with-slots (all_rats) mem
     (format t "Average gene: ")
     (mapc #'(lambda (x) (format t "~f " x))
@@ -57,6 +62,7 @@
 ;; Rat methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod move_rat ((r rat))
+  "move rat in direction indicated by dir, then decrement energy"
   (with-slots (dir x y energy) r
     (setf x (mod (+ x (cond ((and (>= dir 2) (< dir 5)) 1)
 				    ((or (= dir 1) (= dir 5)) 0)
@@ -69,6 +75,7 @@
     (decf energy)))
 
 (defmethod turn_rat ((r rat))
+  "turn rat based on genes"
   (with-slots (dir genes) r
     (let ((x (randi (apply #'+ genes))))
       (labels ((angle (genes x)
@@ -80,6 +87,7 @@
 	      (mod (+ dir (angle genes x)) 8))))))
 
 (defmethod kill_rat ((r rat))
+  "true if energy < 0"
   (with-slots (energy) r
     (if (<= energy 0)
 	(progn (incf *dead_rats*) t))))
@@ -88,12 +96,16 @@
 ;; Shared methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod add_rat ((mem rat_mem) new_rat)
+  "add rat to list of living rats..if no rat is passed
+   a default will be created"
   (with-slots (all_rats) mem
     (if (null new_rat)
 	(push (make-rat) all_rats)
 	(push new_rat all_rats))))
 
 (defmethod eat_rat ((r rat) (mem rat_mem))
+  "check if rat is near plant, if so consume it and add
+   plant_energy to rats curren energy"
   (with-slots (x y energy) r
     (with-slots (all_plants) mem
       (let ((pos (cons x y)))
@@ -103,6 +115,8 @@
 	  (remhash pos all_plants))))))
 
 (defmethod reproduce_rat ((r rat) (mem rat_mem))
+  "if a rat has enough energy, create a child with genes
+   from de_candidate"
   (with-slots (energy) r
     (when (>= energy *reproduction-energy*)
       (setf energy (ash energy -1))
@@ -111,6 +125,7 @@
 	(add_rat mem child)))))
 
 (defmethod update_rat ((r rat) (mem rat_mem))
+  "life-cycle of rat"
   (turn_rat r)
   (move_rat r)
   (eat_rat r mem)
@@ -157,6 +172,7 @@
 		    (rat-genes (any_rat mem))))))
 		    
 (defun sum_lists (x)
+  "sums a list containing lists"
   (labels ((sum_it (l)
 	     (if (null l)
 		 (make-list (length x) :initial-element 0)		 
