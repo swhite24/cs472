@@ -5,7 +5,6 @@
 		"pick.lisp"
 		"de.lisp"
 		"de_orig.lisp"
-		"evolution.lisp"
 		)))
 
 (defun ! () (load "main.lisp"))

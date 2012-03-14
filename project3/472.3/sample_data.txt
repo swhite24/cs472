@@ -1,0 +1,50 @@
+Number of living rats: 154
+Number of dead rats: 5704
+Average gene: 264.3052 274.5779 260.93506 123.25325 30.74026 393.68832 4114.0586 867.23376 
+Number of plants eaten: 19389
+
+Number of living rats: 161
+Number of dead rats: 5668
+Average gene: 767.3602 461.54037 292.04968 6139.2485 59.9441 187.39752 168.04347 734.1553 
+Number of plants eaten: 19451
+
+Number of living rats: 159
+Number of dead rats: 5827
+Average gene: 982.239 288.2327 477.84277 369.45282 121.98742 354.4151 456.4591 1004.1321 
+Number of plants eaten: 19344
+
+Number of living rats: 151
+Number of dead rats: 5676
+Average gene: 855.3179 633.17883 433.39734 875.60266 145.98676 131.55629 146.64238 96.76821 
+Number of plants eaten: 19350
+
+Number of living rats: 161
+Number of dead rats: 5698
+Average gene: 1221.2546 103.74534 1671.2733 88.24223 113.68323 175.2236 445.40372 79.81988 
+Number of plants eaten: 19351
+
+Number of living rats: 169
+Number of dead rats: 5757
+Average gene: 331.95267 1819.1775 842.3787 231.18343 63.24852 760.6095 161.15976 210.70415 
+Number of plants eaten: 19337
+
+Number of living rats: 165
+Number of dead rats: 5693
+Average gene: 752.2485 316.33334 52.739395 128.2606 20.81212 305.76968 2702.1091 1283.6182 
+Number of plants eaten: 19411
+
+Number of living rats: 163
+Number of dead rats: 5741
+Average gene: 480.69324 1105.0981 91.81595 5516.675 148.44171 643.5521 229.17178 417.3129 
+Number of plants eaten: 19421
+
+Number of living rats: 161
+Number of dead rats: 5830
+Average gene: 1695.6211 276.45963 517.13043 74.26087 109.80746 303.21118 436.42856 453.1677 
+Number of plants eaten: 19372
+
+Number of living rats: 154
+Number of dead rats: 5676
+Average gene: 827.77924 2203.669 1584.4675 987.25977 85.25974 73.37013 132.7987 376.15585 
+Number of plants eaten: 19381
+

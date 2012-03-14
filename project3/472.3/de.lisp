@@ -92,6 +92,14 @@
     (if (<= energy 0)
 	(progn (incf *dead_rats*) t))))
 
+(defmethod score_rat ((r rat))
+  (with-slots (genes) r
+    (let ((genes_sum (apply #'+ genes))
+	  (early_sum (apply #'+ (butlast genes 5)))
+	  (late_sum (apply #'+ (last genes 3))))
+      (max (/ early_sum genes_sum)
+	   (/ late_sum genes_sum)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shared methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -116,7 +124,7 @@
 
 (defmethod reproduce_rat ((r rat) (mem rat_mem))
   "if a rat has enough energy, create a child with genes
-   from de_candidate"
+   from de_candidate, then check who survives"
   (with-slots (energy) r
     (when (>= energy *reproduction-energy*)
       (setf energy (ash energy -1))
@@ -134,22 +142,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Util Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun rat_de (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) 
+(defun rat_de (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) (n 10)
 	       (mem (make-rat_mem :c_freq c_freq
 				  :scale_fact scale_fact)))
-  (setf *dead_rats* 0)
-  (setf *plants_eaten* 0)
-  ;; initial population
-  (dotimes (i 4)
-    (add_rat mem nil)) 
-  (dotimes (i gens)
-    (update_mem mem))
-  ;(mapc #'print (rat_mem-all_rats mem))
-  (format t "Number of living rats: ~a~%" (length (rat_mem-all_rats mem)))
-  (format t "Number of dead rats: ~a~%" *dead_rats*)
-  (results mem)
-  (format t "~%Number of plants eaten: ~a~%" *plants_eaten*))
-
+  (when (> n 0)
+    (setf *dead_rats* 0)
+    (setf *plants_eaten* 0)
+    ;; initial population
+    (dotimes (i 4)
+      (add_rat mem nil)) 
+    (dotimes (i gens)
+      (update_mem mem))
+    ;(mapc #'print (rat_mem-all_rats mem))
+    (format t "Number of living rats: ~a~%" 
+	    (length (rat_mem-all_rats mem)))
+    (format t "Number of dead rats: ~a~%" *dead_rats*)
+    ;; print average gene
+    (results mem)
+    (format t "~%Number of plants eaten: ~a~%~%" *plants_eaten*)
+    (rat_de :c_freq c_freq :scale_fact scale_fact
+	    :gens gens :n (1- n) )))
+  
 (defun rat_de_run (n runs mem)
   (if (zerop n)
       t
