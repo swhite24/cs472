@@ -1,8 +1,15 @@
+;; size of landscape
 (defparameter *width* 100)
 (defparameter *height* 30)
+
+;; oasis in landscape
 (defparameter *jungle* '(45 10 10 10))
+
+;; constants
 (defparameter *plant_energy* 80)
 (defparameter *reproduction-energy* 200)
+
+;; counters
 (defparameter *dead_rats* 0)
 (defparameter *plants_eaten* 0)
 
@@ -11,7 +18,11 @@
 (defstruct rat_mem
   (c_freq 0.5)
   (scale_fact 0.3)
-  (all_rats '())
+  ;; unique id for future rats
+  (current 0)
+  ;; generation counter, used for aging rats
+  (gen 0)
+  (all_rats (make-hash-table :test #'equal))
   (all_plants (make-hash-table :test #'equal)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -21,6 +32,10 @@
   (y (ash *height* -1))
   (energy 1000)
   (dir 0)
+  ;; unique id of parent in all_rats
+  (parent 0)
+  ;; generation when rat was created
+  (creation 0)
   (genes (loop for x from 1 to 8
 	      collect (1+ (randi 10)))))
 
@@ -29,8 +44,10 @@
 
 (defmethod any_rat ((mem rat_mem))
   "select any currently living rat"
-  (nth (randi (length (rat_mem-all_rats mem)))
-       (rat_mem-all_rats mem)))
+  (with-slots (all_rats current) mem
+    (let ((rand (randi current)))
+      (or (gethash rand all_rats)
+	  (any_rat mem)))))
 
 (defmethod random_plant ((mem rat_mem) left top width height)
   "create plant within given constraints"
@@ -45,18 +62,30 @@
 
 (defmethod update_mem ((mem rat_mem))
   "update each rat, add plants, and remove dead rats"
-  (with-slots (all_plants all_rats) mem
-    (mapc #'(lambda (r) (update_rat r mem)) all_rats)
+  (with-slots (all_plants all_rats gen) mem
+    (maphash #'(lambda (key r) (update_rat r mem)) all_rats)
     (add_plants mem)
-    (setf all_rats (remove-if #'kill_rat all_rats))))
+    (let ((dead_rats '()))
+      (maphash #'(lambda (key r)
+		   (if (<= (rat-energy r) 0)
+		       (push key dead_rats)))
+	       all_rats)
+      (dolist (key dead_rats)
+	(incf *dead_rats*)
+	(remhash key all_rats)))
+    (incf gen)))
 
 (defmethod results ((mem rat_mem))
   "print average gene for all living rats"
   (with-slots (all_rats) mem
     (format t "Average gene: ")
-    (mapc #'(lambda (x) (format t "~f " x))
-	    (mapcar #'(lambda (x) (/ x (length all_rats)))
-		    (sum_lists (mapcar #'rat-genes all_rats))))))
+    (let ((total_gene (make-list 8 :initial-element 0)))      
+      (maphash #'(lambda (key r)
+		   (setf total_gene (mapcar #'+ total_gene (rat-genes r))))
+	       all_rats)
+      (mapc #'(lambda (x) (format t "~f " x))
+	    (mapcar #'(lambda (x) (/ x (hash-table-count all_rats)))
+		    total_gene)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rat methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -87,12 +116,14 @@
 	      (mod (+ dir (angle genes x)) 8))))))
 
 (defmethod kill_rat ((r rat))
-  "true if energy < 0"
+  "true if energy <= 0"
   (with-slots (energy) r
     (if (<= energy 0)
 	(progn (incf *dead_rats*) t))))
 
-(defmethod score_rat ((r rat))
+(defmethod score_rat1 ((r rat))
+  "scores rat based on percentage of values in either
+   the front or back of gene, max of 1"
   (with-slots (genes) r
     (let ((genes_sum (apply #'+ genes))
 	  (early_sum (apply #'+ (butlast genes 5)))
@@ -100,16 +131,23 @@
       (max (/ early_sum genes_sum)
 	   (/ late_sum genes_sum)))))
 
+(defmethod score_rat ((r rat))
+  "scores rat based on energy, max of 1"
+  (with-slots (energy) r
+    (/ energy 1000)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shared methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod add_rat ((mem rat_mem) new_rat)
   "add rat to list of living rats..if no rat is passed
    a default will be created"
-  (with-slots (all_rats) mem
-    (if (null new_rat)
-	(push (make-rat) all_rats)
-	(push new_rat all_rats))))
+  (with-slots (all_rats current) mem
+    (setf (gethash current all_rats)
+	  (if (null new_rat)
+	      (make-rat)
+	      new_rat))
+    (incf current)))
 
 (defmethod eat_rat ((r rat) (mem rat_mem))
   "check if rat is near plant, if so consume it and add
@@ -129,15 +167,30 @@
     (when (>= energy *reproduction-energy*)
       (setf energy (ash energy -1))
       (let ((child (copy-structure r)))
-	(setf (rat-genes child) (de_candidate mem r))
+	(setf (rat-genes child) (de_candidate mem r)
+	      (rat-creation child) (rat_mem-gen mem)
+	      (rat-parent child) (1+ (rat_mem-current mem)))
 	(add_rat mem child)))))
 
+(defmethod survival_of_fittest ((r rat) (mem rat_mem))
+  "check if rat is old enough to be tested, then compare
+   its score with parent score.  loser dies."
+  (with-slots (energy creation parent) r
+    (with-slots (all_rats gen) mem
+      (if (and (>= (- gen creation) 50)
+	       (gethash parent all_rats))
+	  (if (> (score_rat r)
+		 (score_rat (gethash parent all_rats)))
+	      (setf energy 0)
+	      (setf (rat-energy (gethash parent all_rats)) 0))))))
+	       
 (defmethod update_rat ((r rat) (mem rat_mem))
-  "life-cycle of rat"
+  "a day in the life of a rat"
   (turn_rat r)
   (move_rat r)
   (eat_rat r mem)
-  (reproduce_rat r mem))
+  (reproduce_rat r mem)
+  (survival_of_fittest r mem))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Util Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -155,23 +208,16 @@
       (update_mem mem))
     ;(mapc #'print (rat_mem-all_rats mem))
     (format t "Number of living rats: ~a~%" 
-	    (length (rat_mem-all_rats mem)))
+	    (hash-table-count (rat_mem-all_rats mem)))
     (format t "Number of dead rats: ~a~%" *dead_rats*)
     ;; print average gene
     (results mem)
     (format t "~%Number of plants eaten: ~a~%~%" *plants_eaten*)
     (rat_de :c_freq c_freq :scale_fact scale_fact
 	    :gens gens :n (1- n) )))
-  
-(defun rat_de_run (n runs mem)
-  (if (zerop n)
-      t
-      (rat_de_step (- n 1) runs mem)))
-
-(defun rat_de_step (n runs mem)
-  )
 
 (defun de_candidate (mem parent)
+  "produces a child gene based on parent and 3 others"
   (labels ((candidate1 (x y z)
 	     (max 1 (round (+ x (* (rat_mem-scale_fact mem)
 				   (- y z))))))
@@ -183,11 +229,3 @@
 		    (rat-genes (any_rat mem)) 
 		    (rat-genes (any_rat mem))
 		    (rat-genes (any_rat mem))))))
-		    
-(defun sum_lists (x)
-  "sums a list containing lists"
-  (labels ((sum_it (l)
-	     (if (null l)
-		 (make-list (length x) :initial-element 0)		 
-		 (mapcar #'+ (car l) (sum_it (cdr l))))))
-    (sum_it x)))
