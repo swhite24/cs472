@@ -42,6 +42,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rat_mem methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmethod add_rat ((mem rat_mem) new_rat)
+  "add rat to list of living rats..if no rat is passed
+   a default will be created"
+  (with-slots (all_rats current) mem
+    (setf (gethash current all_rats)
+	  (if (null new_rat)
+	      (make-rat)
+	      new_rat))
+    (incf current)))
+
 (defmethod any_rat ((mem rat_mem))
   "select any currently living rat"
   (with-slots (all_rats current) mem
@@ -138,16 +148,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shared methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defmethod add_rat ((mem rat_mem) new_rat)
-  "add rat to list of living rats..if no rat is passed
-   a default will be created"
-  (with-slots (all_rats current) mem
-    (setf (gethash current all_rats)
-	  (if (null new_rat)
-	      (make-rat)
-	      new_rat))
-    (incf current)))
 
 (defmethod eat_rat ((r rat) (mem rat_mem))
   "check if rat is near plant, if so consume it and add
