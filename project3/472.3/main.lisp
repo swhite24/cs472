@@ -3,8 +3,9 @@
 		"../tricks.lisp"
 		"system.lisp"
 		"pick.lisp"
+		"gade.lisp"
 		"de.lisp"
-		"de_orig.lisp"
+		"ga.lisp"
 		)))
 
 (defun ! () (load "main.lisp"))
