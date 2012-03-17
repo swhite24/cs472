@@ -56,7 +56,7 @@
 			     obj_func)) all_rats)
     (add_plants mem)
     (kill_rats mem)
-    (summarize mem freq)
+    ;(summarize mem freq)
     (incf gen)))
 
 (defmethod add_rat ((mem rat_mem) new_rat)
@@ -112,7 +112,7 @@
 (defmethod average_gene ((mem rat_mem))
   "print average gene for all living rats"
   (with-slots (all_rats) mem
-    (format t "Average gene: ")
+    ;(format t "Average gene: ")
     (let ((total_gene (make-list 8 :initial-element 0)))      
       (maphash #'(lambda (key r)
 		   (setf total_gene (mapcar #'+ total_gene (rat-genes r))))
@@ -270,7 +270,8 @@
     ;; conduct generations
     (dotimes (i gens)
       (update_mem mem alg summarize_freq obj_func))
-    (summarize mem summarize_freq)
+    ;(summarize mem summarize_freq)
+    (average_gene mem)
     (run_alg alg c_freq scale_fact gens (1- n) init  
 	     summarize_freq obj_func
 	     (make-rat_mem :c_freq c_freq
