@@ -31,8 +31,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Struct for rat ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defstruct rat
-  (x (ash *width* -1))
-  (y (ash *height* -1))
+  (x (randi *width*))
+  (y (randi *height*))
   (energy 1000)
   (dir 0)
   ;; unique id of parent in all_rats
@@ -48,15 +48,15 @@
 ;; Rat_mem methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod update_mem ((mem rat_mem) candidate_func freq
-		       obj_func)
+		       obj_func compare_func)
   "update each rat, add plants, and remove dead rats"
   (with-slots (all_plants all_rats gen) mem
     (maphash #'(lambda (key r) 
 		 (update_rat r mem candidate_func
-			     obj_func)) all_rats)
+			     obj_func compare_func)) all_rats)
     (add_plants mem)
     (kill_rats mem)
-    ;(summarize mem freq)
+    (summarize mem freq)
     (incf gen)))
 
 (defmethod add_rat ((mem rat_mem) new_rat)
@@ -127,20 +127,24 @@
 ;; Rat methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod update_rat ((r rat) (mem rat_mem) candidate_func
-		       obj_func)
+		       obj_func compare_func)
   "a day in the life of a rat"
   (turn_rat r)
   (move_rat r)
   (eat_rat r mem)
   (reproduce_rat r mem candidate_func)
-  (funcall obj_func r mem #'score_rat_energy))
+  (funcall obj_func r mem #'score_rat_energy
+	   (funcall compare_func r mem)))
+
+(defmethod get_parent ((r rat) (mem rat_mem))
+  (rat-parent r))
 
 (defmethod move_rat ((r rat))
   "move rat in direction indicated by dir, then decrement energy"
   (with-slots (dir x y energy) r
     (setf x (mod (+ x (cond ((and (>= dir 2) (< dir 5)) 1)
-				    ((or (= dir 1) (= dir 5)) 0)
-				    (t -1))
+			    ((or (= dir 1) (= dir 5)) 0)
+			    (t -1))
 		    *width*) *width*)
 	  y (mod (+ y (cond ((and (>= dir 0) (< dir 3)) -1)
 			    ((and (>= dir 4) (< dir 7)) 1)
@@ -182,44 +186,81 @@
 	(setf (rat-genes child) (funcall candidate_func mem r)
 	      (rat-creation child) (rat_mem-gen mem)
 	      (rat-parent child) id
-	      (rat-id child) (1+ (rat_mem-current mem)))
+	      (rat-id child) (rat_mem-current mem))
 	(add_rat mem child)))))
 
-(defmethod single_obj ((r rat) (mem rat_mem) obj_func)
+(defmethod closest_dec ((r rat) (mem rat_mem))
+  "return rat with most similar gene"
+  (with-slots (genes) r
+    (let ((distance most-positive-fixnum)
+	  best)
+    (maphash #'(lambda (key val)
+		 (let ((diff 0)
+		       (genes1 (rat-genes val)))
+		   (loop for i from 0 to 7 do
+			(incf diff (abs (- (nth i genes)
+					   (nth i genes1)))))
+		   (if (and (< diff distance)
+			    (not (equal val r)))
+		       (setf distance diff
+			     best key))))
+	     (rat_mem-all_rats mem))
+    best)))
+
+(defmethod closest_obj ((r rat) (mem rat_mem))
+  "return closest rat in objective space, i.e. the one
+   with the most similar energy value"
+  (let ((distance most-positive-fixnum)
+	best)
+    (maphash #'(lambda (key val)
+		 (let ((new_dist (abs (- (score_rat_energy r mem)
+					  (score_rat_energy val mem)))))
+		   (if (and (< new_dist distance)
+			    (not (equal val r)))
+		       (setf distance new_dist
+			     best key))))
+	     (rat_mem-all_rats mem))
+    best))
+
+(defmethod single_obj ((r rat) (mem rat_mem) obj_func compare_to)
   "check if rat is old enough to be killed, then compare
    its score with parent score.  loser dies."
-  (with-slots (energy creation parent) r
+  (with-slots (energy creation) r
     (with-slots (all_rats gen) mem
       (when (and (>= (- gen creation) 25)
-		 (gethash parent all_rats))
-	(if (<= (funcall obj_func r mem)
-		(funcall obj_func (gethash parent all_rats) 
-				    mem))
-	    (setf energy 0)
-	    (setf (rat-energy 
-		   (gethash parent all_rats)) 
-		  0))))))
+		 (gethash compare_to all_rats))
+	(let* ((p (gethash compare_to all_rats))
+	       (p_age (- gen (rat-creation p)))
+	       (c_score (funcall obj_func r mem))
+	       (p_score (funcall obj_func p mem)))
+	  (when (> p_age 25)
+	    (if (> c_score p_score)
+		(setf (rat-energy (gethash compare_to all_rats)) 0))
+	    (if (< c_score p_score)
+		(setf energy 0))))))))
 
-(defmethod two_obj ((r rat) (mem rat_mem) obj_func)
-  "check if rat is old enough to be killed, then compare
+(defmethod two_obj ((r rat) (mem rat_mem) obj_func compare_to)
+  "Check if rat is old enough to be killed, then compare
    energy and children score with parent.  If one dominates
-   the other, the other dies."
-  (with-slots (parent creation energy) r
+   the other, the other dies. If neither dominates, both live."
+  (with-slots (creation energy) r
     (with-slots (all_rats gen) mem
       (when (and (>= (- gen creation) 25)
-		 (gethash parent all_rats))
-	(let* ((p (gethash parent all_rats))
+		 (gethash compare_to all_rats))
+	(let* ((p (gethash compare_to all_rats))
+	       (p_age (- gen (rat-creation p)))
 	       (child_score_en (score_rat_energy r mem))
 	       (child_score_ch (score_rat_children r mem))
 	       (p_score_en (score_rat_energy p mem))
 	       (p_score_ch (score_rat_children p mem)))
-	  (if (and (<= child_score_en p_score_en)
-		   (<= child_score_ch p_score_ch))
-	      (setf energy 0))
-	  (if (and (<= p_score_en child_score_en)
-		   (<= p_score_ch child_score_ch))
-	      (setf (rat-energy (gethash parent all_rats))
-		    0)))))))
+	  (when (>= p_age 25)
+	    (if (and (<= child_score_en p_score_en)
+		     (<= child_score_ch p_score_ch))
+		(setf energy 0))
+	    (if (and (<= p_score_en child_score_en)
+		     (<= p_score_ch child_score_ch))
+		(setf (rat-energy (gethash compare_to all_rats))
+		      0))))))))
 
 (defmethod kill_rat ((r rat))
   "true if energy <= 0"
@@ -260,7 +301,7 @@
 ;; Util Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun run_alg (alg c_freq scale_fact gens n init summarize_freq 
-		obj_func mem)
+		obj_func compare_func mem)
   (when (> n 0)
     (setf *dead_rats* 0)
     (setf *plants_eaten* 0)
@@ -269,11 +310,11 @@
       (add_rat mem nil))
     ;; conduct generations
     (dotimes (i gens)
-      (update_mem mem alg summarize_freq obj_func))
-    ;(summarize mem summarize_freq)
-    (average_gene mem)
+      (update_mem mem alg summarize_freq obj_func compare_func))
+    (summarize mem summarize_freq)
+    ;(average_gene mem)
     (run_alg alg c_freq scale_fact gens (1- n) init  
-	     summarize_freq obj_func
+	     summarize_freq obj_func compare_func
 	     (make-rat_mem :c_freq c_freq
 			   :scale_fact scale_fact))))
 

@@ -4,10 +4,27 @@
 (defun run_de (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) 
 	       (n 10) (summarize_freq 10)
 	       (obj_func #'single_obj)
+	       (compare_func #'get_parent)
 	       (mem (make-rat_mem :c_freq c_freq
 				  :scale_fact scale_fact)))
   (run_alg #'de_candidate c_freq scale_fact gens n 10
-	   summarize_freq obj_func mem))
+	   summarize_freq obj_func compare_func mem))
+
+(defun run_de_dec (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) 
+		   (n 10) (summarize_freq 10)
+		   (obj_func #'single_obj)
+		   (mem (make-rat_mem :c_freq c_freq
+				      :scale_fact scale_fact)))
+  (run_alg #'de_candidate c_freq scale_fact gens n 10
+	   summarize_freq obj_func #'closest_dec mem))
+
+(defun run_de_obj (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) 
+	       (n 10) (summarize_freq 10)
+	       (obj_func #'single_obj)
+	       (mem (make-rat_mem :c_freq c_freq
+				  :scale_fact scale_fact)))
+  (run_alg #'de_candidate c_freq scale_fact gens n 10
+	   summarize_freq obj_func #'closest_obj mem))
 
 (defun de_candidate (mem parent)
   "produces a child gene based on parent and 3 others"
@@ -23,4 +40,5 @@
 		    (rat-genes (any_rat mem)) 
 		    (rat-genes (any_rat mem))
 		    (rat-genes (any_rat mem))))))
+
 
