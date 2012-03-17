@@ -11,14 +11,14 @@
       (n          1))
   (dolist (pop_size '(1000 5000 10000 25000 50000 75000 100000))
     (format t "~8:@<~a~>" pop_size)
-    (format t "~11:@<~f~>" (time-it n (run_ga :gens pop_size
+    (format t "~11:@<~,3f~>" (time-it n (run_ga :gens pop_size
 					      :n 1)))
-    (format t "~11:@<~f~>" (time-it n (run_de :gens pop_size
+    (format t "~11:@<~,3f~>" (time-it n (run_de :gens pop_size
 					      :n 1)))
-    (format t "~11:@<~f~>" (time-it n (run_ga :gens pop_size
+    (format t "~11:@<~,3f~>" (time-it n (run_ga :gens pop_size
 					      :n 1
 					      :obj_func #'two_obj)))
-    (format t "~11:@<~f~>~%" (time-it n (run_de :gens pop_size
+    (format t "~11:@<~,3f~>~%" (time-it n (run_de :gens pop_size
 						:n 1
 						:obj_func #'two_obj))))
   (format t "~%~%Total time for all executions: ~f~%"

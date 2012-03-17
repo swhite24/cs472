@@ -117,7 +117,7 @@
       (maphash #'(lambda (key r)
 		   (setf total_gene (mapcar #'+ total_gene (rat-genes r))))
 	       all_rats)
-      (mapc #'(lambda (x) (format t "~5,2F " x))
+      (mapc #'(lambda (x) (format t "~9:@<~,2F~>" x))
 	    (mapcar #'(lambda (x) (/ x (hash-table-count all_rats)))
 		    total_gene))
       (format t "~%"))))
