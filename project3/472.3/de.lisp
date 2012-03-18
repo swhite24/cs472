@@ -7,7 +7,7 @@
 	       (compare_func #'get_parent)
 	       (mem (make-rat_mem :c_freq c_freq
 				  :scale_fact scale_fact)))
-  (run_alg #'de_candidate c_freq scale_fact gens n 10
+  (run_alg #'de_candidate c_freq scale_fact gens n 100
 	   summarize_freq obj_func compare_func mem))
 
 (defun run_de_dec (&key (c_freq 0.5) (scale_fact 0.7) (gens 100) 
