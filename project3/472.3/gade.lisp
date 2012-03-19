@@ -25,6 +25,7 @@
   (current 0)
   ;; generation counter, used for aging rats
   (gen 0)
+  (np 50)
   (all_rats (make-hash-table :test #'equal))
   (all_plants (make-hash-table :test #'equal)))
 
@@ -36,12 +37,12 @@
   (energy 1000)
   (dir 0)
   ;; unique id of parent in all_rats
-  (parent 0)
+  (parent most-positive-fixnum)
   ;; generation when rat was created
   (creation 0)
   (id 0)
   (genes (loop for x from 1 to 8
-	      collect (1+ (randi 10)))))
+	      collect (1+ (randi 1000)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -320,7 +321,7 @@
     ;; conduct generations
     (dotimes (i gens)
       (update_mem mem alg summarize_freq obj_func compare_func))
-    (summarize mem summarize_freq)
+    ;(summarize mem summarize_freq)
     ;(average_gene mem)
     (run_alg alg c_freq scale_fact gens (1- n) init  
 	     summarize_freq obj_func compare_func

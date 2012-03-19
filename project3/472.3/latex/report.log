@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  18 MAR 2012 04:05
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  18 MAR 2012 20:44
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -222,30 +222,42 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 19.
 (/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
+Overfull \hbox (4.79347pt too wide) in paragraph at lines 25--26
+\T1/aer/m/n/9 sub-sets of evo-lu-tion-ary al-go-rithms, dif-fer-en-tial evo-lu-
+tion (DE)
+ []
+
+
+Underfull \vbox (badness 1910) has occurred while \output is active []
+
+
 <rat_wheel.PNG, id=1, 383.18156pt x 222.8325pt>
 File: rat_wheel.PNG Graphic file (type png)
- <use rat_wheel.PNG> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+ <use rat_wheel.PNG>
+Underfull \vbox (badness 1048) has occurred while \output is active []
+
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./rat_wheel.PNG>] (./report.aux) ) 
+ <./rat_wheel.PNG>] [2] (./report.aux) ) 
 Here is how much of TeX's memory you used:
  2191 strings out of 495061
  24705 string characters out of 1182621
- 78882 words of memory out of 3000000
+ 80882 words of memory out of 3000000
  5341 multiletter control sequences out of 15000+50000
  48393 words of font info for 65 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 39i,10n,26p,447b,248s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/b
-ase/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/te
-xmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texlive/
-fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/h
-elvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb><
-/usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
-Output written on report.pdf (1 page, 144328 bytes).
+ 39i,10n,26p,1130b,248s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvi
+ps/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/shar
+e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texl
+ive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
+rw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.p
+fb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
+Output written on report.pdf (2 pages, 152282 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
+ 41 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
