@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{LOL}
+Conrad Barski.
+\newblock {\em Land of Lisp : learn to program in Lisp, one game at a time!}
+\newblock No Starch Press, Inc., 2011.
+
+\bibitem{Das:DE}
+Swagatam Das and Ponnuthurai~Nagaratnam Suganthan.
+\newblock Differential evolution: A survey of the state-of-the-art.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 15(1), February
+  2011.
+
+\bibitem{Konak:GA}
+Abdullah Konak, David~W. Coit, and Alice~E. Smith.
+\newblock Multi-objective optimization using genetic algorithms: A tutorial.
+\newblock {\em Reliability Engineering and System Safety}, 91, January 2006.
+
+\bibitem{DEMO}
+Tea Robic and Bogdan Filipic.
+\newblock Demo: Differential evolution for multiobjective optimization.
+\newblock In {\em In Proceedings of the 3rd International Conference on
+  Evolutionary MultiCriterion Optimization (EMO 2005)}, pages 520--533.
+  Springer. LNCS, 2005.
+
+\end{thebibliography}

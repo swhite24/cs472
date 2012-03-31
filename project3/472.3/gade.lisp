@@ -39,15 +39,14 @@
   ;; unique id of parent in all_rats
   (parent most-positive-fixnum)
   ;; generation when rat was created
-  (creation 0)
+  (creation -25)
   (id 0)
   (genes (loop for x from 1 to 8
-	      collect (1+ (randi 1000)))))
+	      collect (1+ (randi 10)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rat_mem methods ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defmethod update_mem ((mem rat_mem) candidate_func freq
 		       obj_func compare_func)
   "update each rat, add plants, and remove dead rats"
@@ -181,7 +180,7 @@
    from de_candidate, then check who survives"
   (with-slots (energy id creation) r
     (when (and (>= energy *reproduction-energy*)
-	       (> (rat_mem-gen mem) creation))
+	       (> (- (rat_mem-gen mem) creation) 25))
       (setf energy (ash energy -1))
       (let ((child (copy-structure r)))
 	(setf (rat-genes child) (funcall candidate_func mem r)
@@ -228,7 +227,7 @@
    its score with parent score.  loser dies."
   (with-slots (energy creation) r
     (with-slots (all_rats gen) mem
-      (when (and (>= (- gen creation) 25)
+      (when (and (= (- gen creation) 25)
 		 (gethash compare_to all_rats))
 	(let* ((p (gethash compare_to all_rats))
 	       (p_age (- gen (rat-creation p)))
@@ -236,11 +235,13 @@
 	       (p_score (funcall obj_func p mem)))
 	  (when (> p_age 25)
 	    (if (> c_score p_score)
-		(remhash (rat-id p) all_rats))
+		(and (remhash (rat-id p) all_rats)
+		     (incf *dead_rats*)))
 		;(setf (rat-energy (gethash compare_to all_rats)) 0))
 	    (if (< c_score p_score)
 		;(setf energy 0)
-		(remhash (rat-id r) all_rats))))))))
+		(and (remhash (rat-id r) all_rats)
+		     (incf *dead_rats*)))))))))
 
 (defmethod two_obj ((r rat) (mem rat_mem) obj_func compare_to)
   "Check if rat is old enough to be killed, then compare
@@ -248,7 +249,7 @@
    the other, the other dies. If neither dominates, both live."
   (with-slots (creation energy) r
     (with-slots (all_rats gen) mem
-      (when (and (>= (- gen creation) 25)
+      (when (and (= (- gen creation) 25)
 		 (gethash compare_to all_rats))
 	(let* ((p (gethash compare_to all_rats))
 	       (p_age (- gen (rat-creation p)))
@@ -321,7 +322,7 @@
     ;; conduct generations
     (dotimes (i gens)
       (update_mem mem alg summarize_freq obj_func compare_func))
-    ;(summarize mem summarize_freq)
+    (summarize mem summarize_freq)
     ;(average_gene mem)
     (run_alg alg c_freq scale_fact gens (1- n) init  
 	     summarize_freq obj_func compare_func

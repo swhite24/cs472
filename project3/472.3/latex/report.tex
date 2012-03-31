@@ -1,4 +1,9 @@
 \documentclass{sig-alternate}
+\usepackage{algorithmic}
+\usepackage{pseudocode}
+\usepackage{fancybox}
+
+\newtheorem{hyp}{Hypothesis}
 
 \title{CS 472 --- Project 3}
 \subtitle {GAs \& DEs --- A Land of Lisp Approach}
@@ -26,14 +31,20 @@ The purpose of this project is to objectively compare two subsets of evolutionar
 
 The algorithms will be tested with both a single-objective and multiple-objective version of the evolving rats problem.  The simplest and most obvious objectives to use in the context of this problem are the amount of energy a candidate has in comparison to the maximum potential energy and the number of children a candidate has produced relative to its age.  Due to the nature of these objectives and the model itself, a slight diversion was made from the traditional versions of DEs and GAs which immediately compare the scores of candidates with parents.  Instead, we will allow the candidates free roam for a period of generations, in order to be able to accurately assess their success.  Once a candidate is of correct of age, it will be compared with its parent.  Each objective will be scored independently and will be unweighted.  If a candidate dominates the parent, the parent will be removed from future generations.  Conversely, if a candidate is dominated by the parent, the candidate will be removed.  If neither the parent nor the candidate dominate the other, both will remain for future generations.
 
-In addition to comparing one algorithm set with the other, each set will be compared to itself by changing their corresponding choice options, such as scaling factor when mutating, cross-over frequency, and population size.  Changing these options will affect each of the previously listed comparative criteria and may also arrive at a better solution.
+In addition to comparing one algorithm set with the other, each set will be compared to itself by changing their corresponding choice options, such as scaling factor when mutating and the number of objectives to be scored.  Changing these options will affect each of the previously listed comparative criteria and may also arrive at a better solution.
 
 \section{Model}
 
 \subsection{World Description}
-The model to be used for both differential evolution and genetic algorithms will be the rat evolution model of \emph{Land of Lisp}.  This model evolves a randomly generated initial population of a single rat.  The landscape of the ``world'' is thirty units tall by one hundred units wide.  The rats are herbivores, and the landscape is populated with two additional plants for each generation.  Rats have a set amount of energy, and must find plants to regain lost energy in order to remain alive.  Should a rat's energy reach zero, the rat will die and be removed from further generations.  A central ``oasis'' is present in the landscape.  Of the two plants placed in the landscape for each generation, one will be placed randomly inside the oasis, and the other placed randomly somewhere outside the oasis. 
+The model to be used for both differential evolution and genetic algorithms will be the rat evolution model of \emph{Land of Lisp}.  This model evolves a randomly generated initial population of a single rat.  The landscape of the ``world'' is thirty units tall by one hundred units wide.  The rats are herbivores, and the landscape is populated with two additional plants for each generation.  Rats have a set amount of energy, and must find plants to regain lost energy in order to remain alive.  Should a rat's energy reach zero, the rat will die and be removed from further generations.  A central ``oasis'' is present in the landscape.  Of the two plants placed in the landscape for each generation, one will be placed randomly inside the oasis, and the other placed randomly somewhere outside the oasis.  Figure 1 depicts a visual representation of the landscape with a central oasis. \cite{LOL}
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{landscape.PNG}
+\caption{Visual representation of rat ``world''.}
+\end{figure}
 
-Each generation of this model involves a specific life-cycle of the rats.  The first thing rats do is turn.  The direction of the turn is determined by the rat's genes.  Each rat has a set of genes corresponding to how likely they are to turn a certain direction.  A visual depiction of this these genes and their corresponding directions is shown in Figure 1.  \begin{figure}
+Each generation of this model involves a specific life-cycle of the rats.  The first thing rats do is turn.  The direction of the turn is determined by the rat's genes.  Each rat has a set of genes corresponding to how likely they are to turn a certain direction.  A visual depiction of this these genes and their corresponding directions is shown in Figure 2.  \cite{LOL}
+\begin{figure}
 \centering
 \includegraphics[width=0.4\textwidth]{rat_wheel.PNG}
 \caption{Gene ``wheel'' depicting directions of rat travel.}
@@ -42,38 +53,151 @@ For example, a rat with higher values in the lower-indexed positions of the gene
 
 Once turned, the next step in a rat's life-cycle is to move in the specified direction.  Due to the centrally located oasis, two distinct types of genes are expected to evolve.  The first will have higher valued genes with lower indexes, causing them to run at a more constant direction and often returning to the oasis.  The second will have higher valued genes with higher indexes, causing them to wander around a fairly consistent area, i.e. the oasis.  
 
-The final step in the life-cycle of a rat is to produce offspring.  In order for a rat to be eligible to reproduce, a minimum energy requirement must be met.  Should that requirement be met, the total energy of the parent is split equally between itself and the offspring.  The genes of the offpring are uniquely generated by each algorithm, though a basic premise remains that offpsring are similar, but typically not identical, to their parent.
+The final step in the life-cycle of a rat is to produce offspring.  Offspring is produced froma single parent, similar to DE.  This implies that GAs will have no cross-over, only mutation.  In order for a rat to be eligible to reproduce, a minimum energy requirement must be met.  Should that requirement be met, the total energy of the parent is split equally between itself and the offspring.  The genes of the offpring are uniquely generated by each algorithm, though a basic premise remains that offpsring are similar, but typically not identical, to their parent.
 
 \subsection{Modifications for our Purposes}
-Unlike the original version, the model used for all experiments described later had an initial population of four rats.  The primary reason for this difference is that differential evolution requires the parent and three other randomly generated rats for the parent to produce offspring.  An initial population of just a single rat would prevent any diversity in the population of rats, merely a horde of clones.  The same setup was used for genetic algorithsm simply for consistency.
+Unlike the original version, the model used for all experiments described later had an initial population of four rats.  The primary reason for this difference is that differential evolution requires the parent and three other randomly generated rats for the parent to produce offspring.  An initial population of just a single rat would prevent any diversity in the population of rats, merely a horde of clones.  The same setup was used for genetic algorithms simply for consistency.
 
-Staying true to traditional evolutionary algorithms, offspring will compete with parents for a position in future generations.  Once a child is of sufficient age, it will be scored and compared to its parent, with the victor living on.  This presents two distinct possibilities of rats being terminated.  This is different from the original model in which rats only died if their energy reached zero.  
+Staying true to traditional evolutionary algorithms, offspring will compete with parents for a position in the population for future generations.  Once a child is of sufficient age, it will be scored and compared to its parent, with the individual with a better score living on.  This presents two distinct possibilities of rats being terminated, natural dying by running out of energy as well as being ``killed off'' by either a parent or child.  This is different from the original model in which rats only died if their energy reached zero.  
 
 \subsection{Decision Space}
-The decision space of this model consists entirely of the genes of each rat.  No other controllable factor has so large an effect of the success of an individual.  
+The decision space of this model consists entirely of the genes of each rat.  No other controllable factor has so large an effect on the success of an individual.  The genes are what determine direction of travel, and ultimately what areas of the landscape are covered by each rat.  This facilitates the natural killing off of animals with bad genes, since they will travel in patterns not ideal for this model, as well as allowing the rats with better genes to flourish, since they will frequently encounter plants in the landscape to devour.
+
+The method in which genes are tweaked is unique to each algorithm.  Differential evolution uses a single parent and three additional randomly generated members of the population to create a candidate using cross-over and mutation.  Our genetic algorithm uses only mutation and not crossover, despite traditional GAs performing crossover, due to crossover requiring two parents and this model reproduces asexually.
 
 \subsection{Objective Space}
+Two objectives were decided upon for these experiments.  The first is an energy-score.  This may initially seem like a peculiar choice since parents and their offspring start with the same amount of energy.  However, since children are given a specific period of time to live before being compared to their parent, often the child or the parent will be able to further consume plants or reproduce, resulting in different amounts of energy.  The energy-score for each rat is to maximized, up to a value of 1.  The calculation of the energy objective is as follows.
 
+\begin{displaymath}
+energyScore = currentEnergy / maxEnergy
+\end{displaymath}
+
+The second objective for these experiments involves the number of times a rat is able to produce offspring.  This objective may seem to favor the parents, due to them being alive longer, however the score is not determined solely on the number of offspring.  In order to put offspring on a level ground with parents, the number of offspring is divided by the age in terms of generations alive.  This result yields a maximum value of one, the best score, and is calculated as follows.
+
+\begin{displaymath}
+reproductionScore = numberOfChildren / ageOfRat
+\end{displaymath}
+
+Since each of these two objectives are to be maximized, an ideal rat will always have the maximum amount of energy and reproduce in every generation.  This, however, is impossible due to the nature of this model.  While maximizing each objective would contribute to the overall success of an individual rat, the objectives compete with one another.  Hoarding energy means the rat is not reproducing regularly and, conversely, reproducing at a high rate will result in a lower amount of energy.  
 
 \section{Algorithms}
-Compare and constrast DE with GA.  Some pseudo-code.
 
+\subsection{Genetic Algorithm and Differential Evolution Similarities}
+When comparing GAs with DEs there are multiple apparent similarities.  Firstly, each algorithm requires a randomly generated initial population.  The size of this initial population sets a limit on the maximum population size for all subsequent generations.  Each member of the population will produce a candidate, which is where the primary difference between the two lies.  Ordinarily, this candidate is then compared with its ``parent'' based on some pre-defined objective criteria, and the winner is then reinserted back into the population with the loser begin discarded.  However, as described previously, for our purposes the child rat will be given a set period of time to live before being compared with its parent.  A modified version of the basic outline for DE can adequately describe the similarities of each algorithm and is shown below.\cite{DEMO}
+
+\begin{pseudocode}{DEandGA}{ }
+\mathcal{P} \GETS \mbox{randomly generated initial population}\\
+\WHILE \mbox{stopping criterion not met} \DO
+\BEGIN
+\FOREACH member \in \mathcal{P} \DO
+\BEGIN
+\IF \mbox{member is old enough}
+\THEN \mbox{compare to parent and keep better}\\
+\mbox{generate candidate from member, add to } \mathcal{P}
+\END
+\END
+\end{pseudocode}
+
+The generation of candidate from each member of the population is what distinguishes the two algorithms from each other.  The following two sections describe how each algorithm produces a candidate.
 \subsection{Genetic Algorithms}
-GA specific alg info here.
+All genetic algorithms use two operators to generate new candidates for the population, crossover and mutation.\cite{Konak:GA}  Crossover involves combining two ``parents'' to produce an offspring.  There are several different varieties of crossover, such as single-point crossover and multi-point crossover.  Mutation randomly changes the offspring produced from crossover, typically by a small amount.  The main purpose of mutation is to introduce a larger amount of diversity in the population.  The GA procedure used to generate offspring in our experiments is shown below.\cite{Konak:GA}
+
+\begin{pseudocode}{GA\_Candidate}{\mbox{Parent p}}
+n \GETS \mbox{random integer from 1 to 8}\\
+candidate \GETS p\\
+candidate \GETS candidate \mbox{ (with gene } n \mbox{ modified by f)}\\
+\RETURN{candidate}
+\end{pseudocode}
+
+Once an offspring rat is created, it is allowed to live freely for a set period of time before being scored and compared with its parent.  Once this free period expires, the offspring is compared with its parent and if it scores better, it remains in the population and replaces the parent.  If it does not score better, it is discarded.
 
 \subsection{Differential Evolution}
-DE specific alg info here. Only using DEMO/parent at this point.
+Differential evolution uses crossover, similar to genetic algorithms.  However, DEs do not use mutation, and instead generate an offspring from three random individuals from the population other than the parent.  The randomly generated offspring then undergoes crossover with parent using a predefined crossover probability.  The outline of generating a candidate with DE is shown below.\cite{DEMO}
 
-\subsection{Comparison}
-Compare \& contrast GA with DE.
+\begin{pseudocode}{DE\_Candidate}{\mbox{Parent p}}
+\PROCEDURE{Candidate1}{x,y,z}
+candidate \GETS x + f*(y-z)\\
+\RETURN{candidate}
+\ENDPROCEDURE
+\MAIN
+x,y,z \GETS \mbox{random members of }\mathcal{P}\\
+candidate \GETS \CALL{Candidate1}{x,y,z}\\
+\mbox{Modify $candidate$ by binary crossover with $p$}\\
+\RETURN{candidate}
+\ENDMAIN
+\end{pseudocode}
+
+Once a candidate offspring is produced it is given a period of free life, similarly to how GAs are treated, instead of being immediately compared with the parent.  If the candidate is better than the parent, the parent is replaced, otherwise the candidate is discarded.
 
 \section{Expectations}
-List of research questions (RQ1, RQ2, etc) and/or hypotheses
-(H1, H2, etc).  Must include two-population hypothesis.
+
+\begin{hyp}
+\begin{minipage}[t]{2.2 in}
+Due to the location of newly created plants in the rat landscape, the rats who frequently visit the center ``oasis'' will have a higher chance of survival.  This will lead to two groups of rats: those who roam around the oasis, and those who run loops around the landscape.
+\end{minipage}
+\end{hyp}
+
+Hypothesis 1 predicts that two distinct groups of rats should arise after a sufficient number of generations.  This prediction was originally presented by Conrad Barski in the description of the rat model.\cite{LOL}  His reasoning for the model forming two groups of rats is that the most successful rats will frequently visit the central oasis of landscape, which gets significantly more plants to consume than any other portion of the landscape.  The first anticipated group will have higher values in the latter portion of their genes, resulting in them frequently doing an about face and remaining in the landscape for the majority of their lives.  The second group will have higher values in the earlier portion of their genes, resulting in very little turning doing complete revolutions around the landscape and traveling through the oasis on each revolution.
+
+\begin{hyp}
+\begin{minipage}[t]{2.2 in}
+Genetic Algorithms will execute faster than Differential Evolution for all combinations of the number of generations and the number of objectives.
+\end{minipage}
+\end{hyp}
+
+Hypothesis 2 predicts that genetic algorithms will execute faster than differential evolution no matter the number of objectives use to score the rats or the number of generations conducted.  This prediction is based on the fact that differential evolution requires a total of four members of the population in order to produce a new candidate\cite{Das:DE}, whereas genetic algorithms require only a single parent.  The additional members of the population require more processing time to obtain.
+
+\begin{hyp}
+\begin{minipage}[t]{2.2 in}
+Differential Evolution will approach the two population hypothesis in fewer generations than Genetic Algorithms.
+\end{minipage}
+\end{hyp}
+
+Hypothesis 3 predicts that differential evolution will arrive at the two dominant populations of rats described in Hypothesis 1 in fewer generations than genetic algorithms.  The method in which differential evolution produces new candidates, by using three members of the population to produce an initial candidate and then a binary crossover with a parent, allows for more diversity in the population.  The specific genetic algorithm used in this experiment uses only a single parent's genes with mutation, resulting in less diversity.
+
+\begin{hyp}
+\begin{minipage}[t]{2.2 in}
+Both algorithms will maintain a similar number of living rats after a sufficient amount of generations due to the natural killing off rats in the model.
+\end{minipage}
+\end{hyp}
+
+Hypothesis 4 predicts that each algorithm will result in a fairly constant number of living rats after a sufficient number of generations.  The natural starving off of rats in this model, occuring when a rat reaches an energy level of 0 by not consuming enough plants, puts an implicit population cap on the rats.  The cap is also affected by the size of the landscape, a mere 100 units by 30 units, as well as the number of new plants introduced to the landscape, two new plants for each generation.\cite{LOL}  The small size and number of plants is not compatible with a large population, and as such the number of living rats will be limited.
 
 \section{Results}
 Performance, effectiveness, better on one or multiple
 objectives.  Graphs, etc.
+
+\begin{table}
+\centering
+\caption{Average number of living rats by generation}
+\begin{tabular}{c|c}
+Number of Generations & Number of Living Rats \\
+\hline
+0 & 10,000 \\
+100 & 40,013 \\
+200 & 210 \\
+300 & 95 \\
+400 & 70 \\
+500 & 84 \\
+600 & 79 \\
+700 & 85 \\
+800 & 91 \\
+900 & 86 \\
+1,000 & 83 
+\end{tabular}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{avg_gene.png}
+\caption{Average gene for each algorithm, indicating two populations.}
+\end{figure}
+
+\begin{figure*}
+\centering
+\includegraphics[width=1.0\textwidth]{runtimes.png}
+\caption{Comparison of runtimes for each algorithm and objective type.}
+\end{figure*}
 
 \section{Validity}
 Comment on limitations of study.
@@ -83,13 +207,14 @@ Return to section \emph{Expectations} and address whether the results
 match what was expected.
 
 \section{Further Work}
-Discuss paths not taken.  What would be next step?
+Discuss paths not taken.  What would be next step? \cite{Das:DE}
 
-\section{References}
-Self-explanatory.
+\bibliographystyle{plain}
+\bibliography{report}
 
 \section{Listings}
-All source code and example output.  Divide code into three files
---- de.lisp, ga.lisp, and gade.lisp.
+All source code and example output. \cite{DEMO}  Divide code into three files
+--- de.lisp, ga.lisp, and gade.lisp. \cite {LOL}
+
 
 \end{document}

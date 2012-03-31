@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  18 MAR 2012 20:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  31 MAR 2012 19:14
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -179,50 +179,90 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 (/usr/share/texmf-texlive/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))) (./report.aux)
+)))
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@ALC@unique=\count109
+\c@ALC@line=\count110
+\c@ALC@rem=\count111
+\c@ALC@depth=\count112
+\ALC@tlm=\skip44
+\algorithmicindent=\skip45
+) (./pseudocode.sty
+** 
+** Document Style `pseudocode' - environment 
+** by D.L. Kreher and D.R. Stinson 
+** 
+** The pseudocode environment was originally developed for the book
+** Combinatorial Algorithms: Enumeration, Generation, and Search
+** CRC Press, 1999. 
+Package: pseudocode 
+\pcode@width=\skip46
+(./fancybox.sty
+Package: fancybox 2010/05/15 1.4
+
+Style option: `fancybox' v1.4 <2010/05/15> (tvz)
+\@fancybox=\box30
+\shadowsize=\dimen123
+\@Sbox=\box31
+\do@VerbBox=\toks36
+\the@fancyput=\toks37
+\this@fancyput=\toks38
+\EndVerbatimTokens=\toks39
+\Verbatim@Outfile=\write3
+\Verbatim@Infile=\read1
+)
+\c@pseudocode=\count113
+\c@pseudonum=\count114
+)
+\c@hyp=\count115
+ (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-
-(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+ (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count109
-\scratchdimen=\dimen123
-\scratchbox=\box30
-\nofMPsegments=\count110
-\nofMParguments=\count111
-\everyMPshowfont=\toks36
-\MPscratchCnt=\count112
-\MPscratchDim=\dimen124
-\MPnumerator=\count113
-\everyMPtoPDFconversion=\toks37
+\scratchcounter=\count116
+\scratchdimen=\dimen124
+\scratchbox=\box32
+\nofMPsegments=\count117
+\nofMParguments=\count118
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count119
+\MPscratchDim=\dimen125
+\MPnumerator=\count120
+\everyMPtoPDFconversion=\toks41
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 19.
+LaTeX Font Info:    Try loading font information for U+msa on input line 24.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 19.
+LaTeX Font Info:    Try loading font information for U+msb on input line 24.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 19.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 24.
 
 (/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (4.79347pt too wide) in paragraph at lines 25--26
+Overfull \hbox (4.79347pt too wide) in paragraph at lines 30--31
 \T1/aer/m/n/9 sub-sets of evo-lu-tion-ary al-go-rithms, dif-fer-en-tial evo-lu-
 tion (DE)
  []
@@ -231,33 +271,71 @@ tion (DE)
 Underfull \vbox (badness 1910) has occurred while \output is active []
 
 
-<rat_wheel.PNG, id=1, 383.18156pt x 222.8325pt>
+<landscape.PNG, id=1, 580.41844pt x 281.55188pt>
+File: landscape.PNG Graphic file (type png)
+ <use landscape.PNG>
+<rat_wheel.PNG, id=3, 383.18156pt x 222.8325pt>
 File: rat_wheel.PNG Graphic file (type png)
- <use rat_wheel.PNG>
-Underfull \vbox (badness 1048) has occurred while \output is active []
-
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+ <use rat_wheel.PNG> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./rat_wheel.PNG>] [2] (./report.aux) ) 
+ <./landscape.PNG>]
+Overfull \hbox (58.11368pt too wide) in paragraph at lines 88--99
+[]$ 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2 <./rat_wheel.PNG>]
+Overfull \hbox (1.06885pt too wide) in paragraph at lines 103--104
+\T1/aer/m/n/9 such as single-point crossover and multi-point crossover. Mu-
+ []
+
+
+Overfull \hbox (10.28508pt too wide) in paragraph at lines 103--104
+\T1/aer/m/n/9 ta-tion ran-domly changes the off-spring pro-duced from crossover
+,
+ []
+
+
+Overfull \hbox (17.40007pt too wide) in paragraph at lines 105--110
+[]$ 
+ []
+
+[3] <avg_gene.png, id=27, 405.76593pt x 243.15843pt>
+File: avg_gene.png Graphic file (type png)
+ <use avg_gene.png>
+Overfull \hbox (12.0pt too wide) in paragraph at lines 192--193
+ [][] 
+ []
+
+<runtimes.png, id=28, 816.80156pt x 492.33937pt>
+File: runtimes.png Graphic file (type png)
+ <use runtimes.png>
+(./report.bbl) [4 <./avg_gene.png (PNG copy)>] [5 <./runtimes.png (PNG copy)>]
+(./report.aux) ) 
 Here is how much of TeX's memory you used:
- 2191 strings out of 495061
- 24705 string characters out of 1182621
- 80882 words of memory out of 3000000
- 5341 multiletter control sequences out of 15000+50000
- 48393 words of font info for 65 fonts, out of 3000000 for 9000
+ 2632 strings out of 495061
+ 29734 string characters out of 1182621
+ 93746 words of memory out of 3000000
+ 5757 multiletter control sequences out of 15000+50000
+ 51329 words of font info for 70 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 39i,10n,26p,1130b,248s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvi
-ps/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texl
-ive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
-rw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.p
-fb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
-Output written on report.pdf (2 pages, 152282 bytes).
+ 39i,21n,26p,1130b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy9.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/sh
+are/texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive
+/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/
+times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
+Output written on report.pdf (5 pages, 365931 bytes).
 PDF statistics:
- 41 PDF objects out of 1000 (max. 8388607)
+ 70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
