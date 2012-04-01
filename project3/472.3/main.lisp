@@ -1,8 +1,8 @@
 (handler-bind ((style-warning #'muffle-warning)) 
   (mapc 'load '(
 		"../tricks.lisp"
-		"system.lisp"
-		"pick.lisp"
+		"unused/system.lisp"
+		"unused/pick.lisp"
 		"gade.lisp"
 		"de.lisp"
 		"ga.lisp"
