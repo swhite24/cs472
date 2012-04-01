@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  1 APR 2012 16:57
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.10)  1 APR 2012 17:22
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -262,14 +262,10 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 24.
 (/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (4.79347pt too wide) in paragraph at lines 31--32
+Overfull \hbox (4.79347pt too wide) in paragraph at lines 53--54
 \T1/aer/m/n/9 sub-sets of evo-lu-tion-ary al-go-rithms, dif-fer-en-tial evo-lu-
 tion (DE)
  []
-
-
-Underfull \vbox (badness 1910) has occurred while \output is active []
-
 
 <landscape.PNG, id=1, 580.41844pt x 281.55188pt>
 File: landscape.PNG Graphic file (type png)
@@ -279,76 +275,62 @@ File: rat_wheel.PNG Graphic file (type png)
  <use rat_wheel.PNG> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./landscape.PNG>]
-Overfull \hbox (58.11368pt too wide) in paragraph at lines 90--101
+] [2 <./landscape.PNG> <./rat_wheel.PNG>]
+Overfull \hbox (58.11368pt too wide) in paragraph at lines 112--123
 []$ 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2 <./rat_wheel.PNG>]
 ! Undefined control sequence.
 <recently read> \ENDFOR 
                         
-l.109 \ENDFOR
+l.131 \ENDFOR
              
 ? 
 ! Undefined control sequence.
 <recently read> \ENDFOR 
                         
-l.112 \ENDFOR
+l.134 \ENDFOR
              
 ? 
 
-Overfull \hbox (1.06885pt too wide) in paragraph at lines 120--121
+Overfull \hbox (1.06885pt too wide) in paragraph at lines 142--143
 \T1/aer/m/n/9 such as single-point crossover and multi-point crossover. Mu-
  []
 
 
-Overfull \hbox (10.28508pt too wide) in paragraph at lines 120--121
+Overfull \hbox (10.28508pt too wide) in paragraph at lines 142--143
 \T1/aer/m/n/9 ta-tion ran-domly changes the off-spring pro-duced from crossover
 ,
  []
 
 
-Overfull \hbox (17.40007pt too wide) in paragraph at lines 122--127
+Overfull \hbox (17.40007pt too wide) in paragraph at lines 144--149
 []$ 
  []
 
 [3] <avg_gene.png, id=27, 405.76593pt x 243.15843pt>
 File: avg_gene.png Graphic file (type png)
  <use avg_gene.png>
-Overfull \hbox (12.0pt too wide) in paragraph at lines 231--232
+Overfull \hbox (12.0pt too wide) in paragraph at lines 253--254
  [][] 
  []
 
-<runtimes.png, id=28, 816.80156pt x 492.33937pt>
+[4 <./avg_gene.png (PNG copy)>]
+<runtimes.png, id=31, 816.80156pt x 492.33937pt>
 File: runtimes.png Graphic file (type png)
- <use runtimes.png> [4 <./avg_gene.png (PNG copy)>] [5 <./runtimes.png (PNG cop
-y)>]
-
-LaTeX Warning: Reference `sec:model' on page 6 undefined on input line 258.
-
-
-LaTeX Warning: Reference `sec:model' on page 6 undefined on input line 258.
-
-(./report.bbl
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
- [6])
-[7
+ <use runtimes.png> [5]
+(./report.bbl [6 <./runtimes.png (PNG copy)>]) [7
 
 ] (./report.aux)
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 2651 strings out of 495061
- 29983 string characters out of 1182621
- 93862 words of memory out of 3000000
- 5774 multiletter control sequences out of 15000+50000
+ 2650 strings out of 495061
+ 29972 string characters out of 1182621
+ 94862 words of memory out of 3000000
+ 5773 multiletter control sequences out of 15000+50000
  54323 words of font info for 72 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  39i,21n,26p,1130b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -362,7 +344,7 @@ e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texl
 ive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/u
 rw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.p
 fb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
-Output written on report.pdf (7 pages, 380032 bytes).
+Output written on report.pdf (7 pages, 380702 bytes).
 PDF statistics:
  78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

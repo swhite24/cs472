@@ -23,8 +23,30 @@ Steven White \\
 
 \maketitle
 \section{abstract}
-Test drive abstract. More to come.  Need to list all subsequent
-sections along with a brief summary.
+
+\subsection{Introduction}
+Introduces problem description and intent of study.
+
+\subsection{Models}
+Describes Conrad Barski's \emph{Land of Lisp} model in detail.  Outlines modifications made to model to suit purposes of this study.
+
+\subsection{Algorithms}
+Compares and constrasts differential evolution with genetic evolution with pseudo-code.
+
+\subsection{Expectation}
+Lays out four hypothesis indicating what is expected of study.
+
+\subsection{Results}
+Displays results in tables and figures and also elaborates on the data.
+
+\subsection{Validity}
+Comments on the degree which the results are valid.
+
+\subsection{Conclusion}
+Evaluates each hypothesis based on results.
+
+\subsection{Further Work}
+Lays out further steps to take to improve study.
 
 \section{Introduction}
 \label{sec:Introduction}
@@ -255,7 +277,7 @@ The third conclusion made on the two groups of rats forming in the population, h
 The internal validity of this study is quite good.  The different experiments use the same variables for each algorithm and then make conclusions based on the results.  Each algorithm is also compared to itself while changing only one parameter and keeping all others constant, allowing for a higher degree of internal validity.
 
 \subsection{Intentional Validity}
-The chosen model, described in section~\ref{sec:model} on page~\pageref{sec:model}, is sufficient in assessing the effectiveness of both differential evolution and genetic algorithms, due to it having multiple potential objectives to be optimized.  The only drawback of this model is the natural decreasing of population size.
+The chosen model, described in section~\ref{sec:Model} on page~\pageref{sec:Model}, is sufficient in assessing the effectiveness of both differential evolution and genetic algorithms, due to it having multiple potential objectives to be optimized.  The only drawback of this model is the natural decreasing of population size.
 
 Since the purpose of this study is to compare genetic algorithms with differential evolution in terms of runtimes and effectiveness arriving at an optimal solution, the metrics described in section~\ref{sec:perf} on page~\pageref{sec:perf} adequately assess each of those goals.
  
@@ -286,8 +308,7 @@ A second step to take would be to alter the internal variables that affect offsp
 \bibliography{report}
 
 \section{Listings}
-All source code and example output. \cite{DEMO}  Divide code into three files
---- de.lisp, ga.lisp, and gade.lisp. \cite {LOL}
+All source code and example output is provided below.
 
 
 \end{document}
